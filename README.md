@@ -1,4 +1,4 @@
-# RESTAPIWithJersey
+# Web Service With Jersey
 Create a REST Web Service with JERSEY 1.9 and deployed the project on AWS ECS.
 To run the web service locally- 
 
