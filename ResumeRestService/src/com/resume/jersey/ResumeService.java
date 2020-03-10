@@ -19,20 +19,29 @@ public class ResumeService {
 	  @Produces(MediaType.TEXT_PLAIN)
 	  public String getOrder(@QueryParam("q") String question, @QueryParam("d") String description) {
 		  
+		  String response = "";
+
 
 		 Resume objResume = new Resume();
 	     HashMap<String, String> map =  objResume.readPdf();	
 		
 	     
 		 if(question == null && description == null) {
-			 return "Enter your question";
+			 response = "Enter your question and description";
 		 }
 		 
-		 if(map.containsKey(question)) {
-			 return map.get(question);
+		 if(question.equalsIgnoreCase("Puzzle")) {
+			 String[] puzzleArray = description.split(":");
+			 if(puzzleArray.length < 2) {
+				 response = "invalid description";
+	        }
+			String result = objResume.solvePuzzle(puzzleArray[1].trim());
+			response = " " + result;
+			 
 		 }
-		  else {
-			  return "Question not handled";
-		  }
+		 if(map.containsKey(question)) {
+			 response = map.get(question);
+		 } 
+		 return response;
 	  }
 }
