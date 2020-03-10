@@ -6,6 +6,11 @@ import java.util.Map;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
+/**
+ * Resume class that will parse data from Resume PDF, solve puzzel and return result.
+ * @author pooja
+ *
+ */
 public class Resume {
 
 	HashMap<String, String> resumeMap = new HashMap<>();
@@ -30,11 +35,16 @@ public class Resume {
 		      resumeMap = resumeMapper(pageContent);
 		      
 	    } catch (Exception e) {
-	       
+	    	System.err.println("Exception occured: "+e.getMessage());
 	    }
 		return resumeMap;
 	}
 	
+	/**
+	 * Mapper function that will map the key words from pdf and store in HashMap.
+	 * @param pageContent
+	 * @return map
+	 */
 	private HashMap<String, String>  resumeMapper(String pageContent) {
 		
 		String dummyText = pageContent.trim();
@@ -50,6 +60,9 @@ public class Resume {
 		return resumeMap;
 	}
 	
+	/**
+	 * Set other key value pair in HashMap.
+	 */
 	private void setOtherQueryParams() {
 		resumeMap.put("Ping", "OK");
 		resumeMap.put("Source", "https://github.com/PoojaHarshUpadhyay/RESTAPIWithJersey");	
@@ -59,21 +72,27 @@ public class Resume {
 		resumeMap.put("Resume", conat );
 	}
 	
+	/**
+	 * Puzzel 
+	 * @param input is the description of query parameter.
+	 * @return result
+	 */
 	public String solvePuzzle(String input) {
 		 String[] strArr = input.trim().split("\\r?\\n");
 	        int size = strArr.length;
 
-	        char[][] inputMatrix = new char[size][size];
-	        char[][] checkFlipMatrix = new char[size][size];
+	        char[][] inputMatrix = new char[size][size]; //Input matrix to work on
+	        char[][] checkFlipMatrix = new char[size][size]; //Check whether the matrix[i][j] index is fliped.
 
 	        String topMatrix = strArr[0];
 	        inputMatrix[0][0] = 0;
 	        int startIndex = 0;
+	        //Fill 0 row of matrix 
 	        for (int i = 1; i < topMatrix.length() + 1; i++) {
 	            inputMatrix[0][i] = topMatrix.charAt(startIndex);
 	            startIndex++;
 	        }
-
+	        
 	        for (int i = 1; i < inputMatrix.length; i++) {
 	            for (int j = 0; j < inputMatrix.length; j++) {
 	                if (inputMatrix[i][j] == 0) {
@@ -82,6 +101,7 @@ public class Resume {
 	            }
 	        }
 
+	      //Fill the '='
 	        for (int i = 0; i < inputMatrix.length; i++) {
 	            for (int j = 0; j < inputMatrix.length; j++) {
 	                if (i == j && inputMatrix[i][j] != 0) {
@@ -90,6 +110,7 @@ public class Resume {
 	            }
 	        }
 
+	        //Flip the already given sign in matrix
 	        for (int i = 1; i < inputMatrix.length; i++) {
 	            for (int j = 1; j < inputMatrix.length; j++) {
 	                if (inputMatrix[i][j] != '=' && inputMatrix[i][j] != '-'
@@ -103,8 +124,7 @@ public class Resume {
 	            }
 	        }
 
-	        //iterate through row
-	        //if it finds any value it will fill the same value without flip
+	        //Iterate through row, if it finds any value it will fill the same value without flip
 	        char temp = 'x';
 	        for (int i = 1; i < inputMatrix.length; i++) {
 	            // get value
@@ -130,6 +150,12 @@ public class Resume {
 	        return result;
 
 	}
+	
+	/**
+	 * Convert the matrix to string.
+	 * @param myArray
+	 * @return string
+	 */
 	 private  String convertToStr(char[][] myArray) {
 	        String aString;
 	        aString = "";
@@ -145,6 +171,11 @@ public class Resume {
 	        return aString.trim();
 	    }
 
+	 /**
+	  * Flip the sign
+	  * @param c
+	  * @return flipped value
+	  */
 	    private  char flipSign(char c) {
 	        if (c == '>') {
 	            return '<';

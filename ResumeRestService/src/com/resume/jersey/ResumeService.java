@@ -9,18 +9,26 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 
+/**
+ * Web service that will be support resume parsing and also solve puzzel.
+ * @author pooja
+ *
+ */
 @Path("/resume")
 public class ResumeService {
 	
-	
-	
+	/**
+	 * GET the request
+	 * @param question 
+	 * @param description
+	 * @return response in plain text
+	 */
 	  @GET
 	  @Path("/")
 	  @Produces(MediaType.TEXT_PLAIN)
 	  public String getOrder(@QueryParam("q") String question, @QueryParam("d") String description) {
 		  
 		  String response = "";
-
 
 		 Resume objResume = new Resume();
 	     HashMap<String, String> map =  objResume.readPdf();	
@@ -39,6 +47,7 @@ public class ResumeService {
 			response = " " + result;
 			 
 		 }
+		 
 		 if(map.containsKey(question)) {
 			 response = map.get(question);
 		 } 
