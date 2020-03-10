@@ -103,54 +103,29 @@ public class Resume {
 	            }
 	        }
 
+	        //iterate through row
+	        //if it finds any value it will fill the same value without flip
+	        char temp = 'x';
 	        for (int i = 1; i < inputMatrix.length; i++) {
+	            // get value
 	            for (int j = 1; j < inputMatrix.length; j++) {
-
-	                if (j < checkFlipMatrix.length - 1 &&
-	                        inputMatrix[i][j] != '=' && checkFlipMatrix[i][j] != '1'
-	                        && checkFlipMatrix[i][j + 1] == '1') {
-	                    char sign = inputMatrix[i][j + 1];
-	                    char flipChar = flipSign(sign);
-	                    inputMatrix[i][j] = flipChar;
-	                    checkFlipMatrix[i][j] = '1';
-	                } else if (i < checkFlipMatrix.length - 1 &&
-	                        inputMatrix[i][j] != '=' && checkFlipMatrix[i][j] != '1'
-	                        && checkFlipMatrix[i + 1][j] == '1') {
-	                    char sign = inputMatrix[i + 1][j];
-	                    char flipChar = flipSign(sign);
-	                    inputMatrix[i][j] = flipChar;
-	                    checkFlipMatrix[i][j] = '1';
-	                } else if (i == checkFlipMatrix.length - 1 && j == checkFlipMatrix.length - 1
-	                        && inputMatrix[i][j] != '='
-	                        && checkFlipMatrix[i][j] != '1' && checkFlipMatrix[i + 1][j - 1] == '1') {
-	                    char sign = inputMatrix[i + 1][j - 1];
-	                    char flipChar = flipSign(sign);
-	                    inputMatrix[i][j] = flipChar;
-	                    checkFlipMatrix[i][j] = '1';
-	                } else if (i == checkFlipMatrix.length - 1 && j > checkFlipMatrix.length - 1
-	                        && inputMatrix[i][j] != '='
-	                        && checkFlipMatrix[i][j] != '1' && checkFlipMatrix[i - 1][j + 1] == '1') {
-	                    char sign = inputMatrix[i - 1][j + 1];
-	                    char flipChar = flipSign(sign);
-	                    inputMatrix[i][j] = flipChar;
-	                    checkFlipMatrix[i][j] = '1';
-	                } else if (inputMatrix[i][j] != '='
-	                        && checkFlipMatrix[i][j] != '1' && checkFlipMatrix[i][j - 1] == '1') {
-	                    char sign = inputMatrix[i][j - 1];
-	                    char flipChar = flipSign(sign);
-	                    inputMatrix[i][j] = flipChar;
-	                    checkFlipMatrix[i][j] = '1';
-	                } else if (inputMatrix[i][j] != '='
-	                        && checkFlipMatrix[i][j] != '1' && checkFlipMatrix[i - 1][j] == '1') {
-	                    char sign = inputMatrix[i - 1][j];
-	                    char flipChar = flipSign(sign);
-	                    inputMatrix[i][j] = flipChar;
-	                    checkFlipMatrix[i][j] = '1';
+	                if (inputMatrix[i][j] != '=' && inputMatrix[i][j] != '-' && checkFlipMatrix[i][j] == '1') {
+	                    temp = inputMatrix[i][j];
 	                }
 	            }
+	            //fill row and column
+	            for (int j = 1; j < inputMatrix.length; j++) {
+	                if (inputMatrix[i][j] != '=' && inputMatrix[i][j] == '-' && temp != 'x') {
+	                    inputMatrix[i][j] = temp;
+	                    checkFlipMatrix[i][j] = '1';
+	                    char flipChar = flipSign(temp);
+	                    inputMatrix[j][i] = flipChar;
+	                    checkFlipMatrix[j][i] = '1';
+	                }
+	            }
+	            temp = 'x';
 	        }
-
-
+	        
 	        String result = convertToStr(inputMatrix);
 	        return result;
 
